@@ -22,7 +22,6 @@ def parse(filename):
             nOrgNum = Component.RegNum.nOrgNum
             sCommonName = compound_dict[nOrgNum]["sCommonName"]
             print(sCommonName)
-            #component_list.append(dict(sCommonName=sCommonName, nOrgNum=nOrgNum))            
             components.append(sCommonName)
    
         print(components)
