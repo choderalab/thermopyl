@@ -1,33 +1,25 @@
-import copy
 import pandas as pd
 import glob
-import thermoml_schema  # Obtained by `wget http://media.iupac.org/namespaces/ThermoML/ThermoML.xsd` and `pyxbgen ThermoML.xsd`
 import thermoml_lib
 
 data = []
+compound_dict = {}
 for filename in glob.glob("./*/*.xml")[0:250]:
     try:
-        alldata, root = parse(filename)
+        parser = thermoml_lib.Parser(filename)
+        current_data = parser.parse()
+        data.extend(current_data)
+        compound_dict.update(parser.compound_name_to_formula)
     except IOError:
         continue
-    for d in alldata:
-        if True or u'Mass density, kg/m3' in d:
-            data.append(d)
 
 data = pd.DataFrame(data)
-#data.to_hdf("./data.h5", 'data')
+data.to_hdf("./data.h5", 'data')
 
-X = data.ix[data["Mass density, kg/m3"].dropna().index]
-X = X[X["Temperature, K"] > 270]
-X = X[X["Temperature, K"] < 330]
-X = X[X["Pressure, kPa"] > 50.]
-X = X[X["Pressure, kPa"] < 150.]
-X.dropna(axis=1, how='all', inplace=True)
+compound_dict = pd.Series(compound_dict)
+compound_dict.to_hdf("./compound_name_to_formula.h5", 'data')
 
-
-chemicals = X.components.apply(lambda x: x.split("__")).values
-s = set()
-for chemlist in chemicals:
-    for chem in chemlist:
-        s.add(chem)
-chemicals = s
+#chemicals = set()
+#for chemlist in data.components.apply(lambda x: x.split("__")).values:
+#    for chem in chemlist:
+#        chemicals.add(chem)

@@ -12,13 +12,8 @@ experiment = "Mass density, kg/m3"
 
 X = data.ix[data[experiment].dropna().index]
 
-name_to_formula = pd.read_hdf("./compounds.h5", 'data')
+name_to_formula = pd.read_hdf("./compound_name_to_formula.h5", 'data')
 name_to_formula = name_to_formula.dropna()
-
-name_to_smiles = pd.read_hdf("./name_mapping.h5", 'data')
-
-name_to_cas = pd.read_hdf("./cas_mapping.h5", 'data')
-name_to_cas = name_to_cas.dropna()
 
 X = X[X["Temperature, K"] > 270]
 X = X[X["Temperature, K"] < 330]
