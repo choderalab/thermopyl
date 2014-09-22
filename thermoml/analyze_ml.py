@@ -33,13 +33,17 @@ def count_heavy_atoms(formula_string):
         
 
 data = pd.read_hdf("./data.h5", 'data')
+
+X = data.ix[data["Mass density, kg/m3"].dropna().index]
+
 name_to_formula = pd.read_hdf("./compounds.h5", 'data')
 name_to_formula = name_to_formula.dropna()
 
-X = data.ix[data["Mass density, kg/m3"].dropna().index]
 name_to_smiles = pd.read_hdf("./name_mapping.h5", 'data')
-X["smiles"] = X.components.apply(lambda x: cirpy.resolve(x, "smiles"))  # This should be cached via sklearn.
-X = X[X.smiles != None]
+
+name_to_cas = pd.read_hdf("./cas_mapping.h5", 'data')
+name_to_cas = name_to_cas.dropna()
+
 X = X[X["Temperature, K"] > 270]
 X = X[X["Temperature, K"] < 330]
 X = X[X["Pressure, kPa"] > 50.]
@@ -68,7 +72,27 @@ X["n_heavy_atoms"] = X.components.apply(lambda x: count_heavy_atoms(name_to_form
 X = X[X.n_heavy_atoms <= 10]
 X.dropna(axis=1, how='all', inplace=True)
 
+X["smiles"] = X.components.apply(lambda x: cirpy.resolve(x, "smiles"))  # This should be cached via sklearn.
+X = X[X.smiles != None]
+X = X.ix[X.smiles.dropna().index]
 
-mu = X.groupby(["smiles", "Temperature, K", "Pressure, kPa"])["Mass density, kg/m3"].mean()
-sigma = X.groupby(["smiles", "Temperature, K", "Pressure, kPa"])["Mass density, kg/m3"].std().dropna()
+def first_entry(cas):
+    if type(cas) == type([]):
+        cas = cas[0]
+    return cas
+    
+X["cas"] = X.components.apply(lambda x: first_entry(cirpy.resolve(x, "cas")))  # This should be cached via sklearn.
+X = X[X.cas != None]
+X = X.ix[X.cas.dropna().index]
+
+#X["Temperature, K"] = X["Temperature, K"].round(1)  # Could be useful
+#X["Pressure, kPa"] = X["Pressure, kPa"].round(0)  # Could be useful
+
+
+mu = X.groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa"])["Mass density, kg/m3"].mean()
+sigma = X.groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa"])["Mass density, kg/m3"].std().dropna()
+
+q = mu.reset_index()
+q.to_csv("./densities.csv")
+
 

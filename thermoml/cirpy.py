@@ -4,6 +4,8 @@ CIRpy
 
 Python interface for the Chemical Identifier Resolver (CIR) by the CADD Group at the NCI/NIH.
 https://github.com/mcs07/CIRpy
+
+KAB: Added caching to disk to avoid repeated calls via http
 """
 
 from sklearn.externals.joblib import Memory
@@ -18,7 +20,7 @@ __email__ = 'm.swain@me.com'
 __version__ = '1.0'
 __license__ = 'MIT'
 
-CACHE_PATH = "/home/kyleb/.cirpy/"
+CACHE_PATH = os.path.join(os.path.expanduser("~"), ".cirpy/")
 memory = Memory(cachedir=CACHE_PATH, verbose=0)
 
 API_BASE = 'http://cactus.nci.nih.gov/chemical/structure'
