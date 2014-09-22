@@ -4,33 +4,7 @@ from rdkit.Chem import AllChem
 import cirpy
 import pandas as pd
 import glob
-import thermoml_schema  # Obtained by `wget http://media.iupac.org/namespaces/ThermoML/ThermoML.xsd` and `pyxbgen ThermoML.xsd`
-
-def is_good(formula_string):
-    good = set(["H", "N", "C", "O", "S", ""])
-    elements = set(re.findall("[A-Z][a-z]?", formula_string))    
-    if good.intersection(elements) is None:  # Has no good elements
-        return False
-    if len(elements.difference(good)) > 0:  # Has an unwanted element
-        return False
-    return True
-
-def count_heavy_atoms(formula_string):
-    heavy_atoms = ["N", "C", "O", "S"]
-    elements = re.findall("[A-Z][a-z]?\d?\d?\d?", formula_string)
-    print(elements)
-    n_heavy = 0
-    for s in elements:
-        try:
-            n_atoms = int(re.split("[A-Z][a-z]?", s)[1])
-        except:
-            n_atoms = 1
-        atom = re.split("\d?\d?\d?", s)[0]
-        print(s, atom, n_atoms)
-        if atom in heavy_atoms:
-            n_heavy += n_atoms
-    return n_heavy
-        
+import thermo_lib
 
 data = pd.read_hdf("./data.h5", 'data')
 
@@ -76,17 +50,11 @@ X["smiles"] = X.components.apply(lambda x: cirpy.resolve(x, "smiles"))  # This s
 X = X[X.smiles != None]
 X = X.ix[X.smiles.dropna().index]
 
-def first_entry(cas):
-    if type(cas) == type([]):
-        cas = cas[0]
-    return cas
     
 X["cas"] = X.components.apply(lambda x: first_entry(cirpy.resolve(x, "cas")))  # This should be cached via sklearn.
 X = X[X.cas != None]
 X = X.ix[X.cas.dropna().index]
 
-#X["Temperature, K"] = X["Temperature, K"].round(1)  # Could be useful
-#X["Pressure, kPa"] = X["Pressure, kPa"].round(0)  # Could be useful
 
 
 mu = X.groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa"])["Mass density, kg/m3"].mean()
