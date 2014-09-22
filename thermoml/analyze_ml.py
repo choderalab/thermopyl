@@ -8,7 +8,9 @@ import thermo_lib
 
 data = pd.read_hdf("./data.h5", 'data')
 
-X = data.ix[data["Mass density, kg/m3"].dropna().index]
+experiment = "Mass density, kg/m3"
+
+X = data.ix[data[experiment].dropna().index]
 
 name_to_formula = pd.read_hdf("./compounds.h5", 'data')
 name_to_formula = name_to_formula.dropna()
