@@ -37,6 +37,9 @@ name_to_formula = pd.read_hdf("./compounds.h5", 'data')
 name_to_formula = name_to_formula.dropna()
 
 X = data.ix[data["Mass density, kg/m3"].dropna().index]
+name_to_smiles = pd.read_hdf("./name_mapping.h5", 'data')
+X["smiles"] = X.components.apply(lambda x: cirpy.resolve(x, "smiles"))  # This should be cached via sklearn.
+X = X[X.smiles != None]
 X = X[X["Temperature, K"] > 270]
 X = X[X["Temperature, K"] < 330]
 X = X[X["Pressure, kPa"] > 50.]
@@ -66,6 +69,6 @@ X = X[X.n_heavy_atoms <= 10]
 X.dropna(axis=1, how='all', inplace=True)
 
 
-mu = X.groupby(["components", "Temperature, K", "Pressure, kPa"])["Mass density, kg/m3"].mean()
-sigma = X.groupby(["components", "Temperature, K", "Pressure, kPa"])["Mass density, kg/m3"].std().dropna()
+mu = X.groupby(["smiles", "Temperature, K", "Pressure, kPa"])["Mass density, kg/m3"].mean()
+sigma = X.groupby(["smiles", "Temperature, K", "Pressure, kPa"])["Mass density, kg/m3"].std().dropna()
 
