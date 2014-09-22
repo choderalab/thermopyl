@@ -1,3 +1,4 @@
+import re
 import copy
 import pandas as pd
 import thermoml_schema  # Obtained by `wget http://media.iupac.org/namespaces/ThermoML/ThermoML.xsd` and `pyxbgen ThermoML.xsd`
@@ -29,10 +30,8 @@ class Parser(object):
                 nSampleNm = Component.nSampleNm
                 nOrgNum = Component.RegNum.nOrgNum
                 sCommonName = self.compound_num_to_name[nOrgNum]
-                print(sCommonName)
                 components.append(sCommonName)
-       
-            print(components)
+
             components_string = "__".join(components)
 
             property_dict = {}

@@ -4,11 +4,12 @@ from rdkit.Chem import AllChem
 import cirpy
 import pandas as pd
 import glob
-import thermo_lib
+import thermoml_lib
 
 data = pd.read_hdf("./data.h5", 'data')
 
 experiment = "Mass density, kg/m3"
+#experiment = "Speed of sound, m/s"
 
 X = data.ix[data[experiment].dropna().index]
 
@@ -26,7 +27,7 @@ for k, row in X.iterrows():
     chemical_string = row.components
     chemicals = chemical_string.split("__")
     try:
-        X_is_good[k] = all([is_good(name_to_formula[chemical]) for chemical in chemicals])
+        X_is_good[k] = all([thermoml_lib.is_good(name_to_formula[chemical]) for chemical in chemicals])
     except KeyError:
         print("Warning, could not find %d %s" % (k, chemical_string))
         X_is_good[k] = False
@@ -39,7 +40,7 @@ X["n_components"] = X.components.apply(lambda x: len(x.split("__")))
 X = X[X.n_components == 1]
 X.dropna(axis=1, how='all', inplace=True)
 
-X["n_heavy_atoms"] = X.components.apply(lambda x: count_heavy_atoms(name_to_formula[x]))
+X["n_heavy_atoms"] = X.components.apply(lambda x: thermoml_lib.count_heavy_atoms(name_to_formula[x]))
 X = X[X.n_heavy_atoms <= 10]
 X.dropna(axis=1, how='all', inplace=True)
 
@@ -48,16 +49,14 @@ X = X[X.smiles != None]
 X = X.ix[X.smiles.dropna().index]
 
     
-X["cas"] = X.components.apply(lambda x: first_entry(cirpy.resolve(x, "cas")))  # This should be cached via sklearn.
+X["cas"] = X.components.apply(lambda x: thermoml_lib.get_first_entry(cirpy.resolve(x, "cas")))  # This should be cached via sklearn.
 X = X[X.cas != None]
 X = X.ix[X.cas.dropna().index]
 
-
-
-mu = X.groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa"])["Mass density, kg/m3"].mean()
-sigma = X.groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa"])["Mass density, kg/m3"].std().dropna()
+mu = X.groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa"])[experiment].mean()
+sigma = X.groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa"])[experiment].std().dropna()
 
 q = mu.reset_index()
-q.to_csv("./densities.csv")
+#q.to_csv("./densities.csv")
 
 
