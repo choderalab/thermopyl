@@ -63,13 +63,11 @@ X["cas"] = X.components.apply(lambda x: thermoml_lib.get_first_entry(cirpy.resol
 X = X[X.cas != None]
 X = X.ix[X.cas.dropna().index]
 
-X["Temperature, K"] = np.round(X["Temperature, K"])
-X["Pressure, kPa"] = np.round(X["Pressure, kPa"])
 mu = X.groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa"])[experiments].mean()
 sigma = X.groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa"])[experiments].std().dropna()
 
-q = q[::100]
 q = mu.reset_index()
+q = q[::100]
 #q.to_csv("./densities.csv")
 #q.to_csv("./sound.csv")
 q.to_csv("./data_100x.csv")
