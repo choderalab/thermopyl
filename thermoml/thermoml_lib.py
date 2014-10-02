@@ -101,17 +101,18 @@ class Parser(object):
         return alldata
 
 
-def is_good(formula_string):
-    good = set(["H", "N", "C", "O", "S", ""])
+def is_good(formula_string, good_atoms=["H","N","C","O","S"]):
+    good_atoms = set(good_atoms)
+    good_atoms.add("")
     elements = set(re.findall("[A-Z][a-z]?", formula_string))    
-    if good.intersection(elements) is None:  # Has no good elements
+    if good_atoms.intersection(elements) is None:  # Has no good elements
         return False
-    if len(elements.difference(good)) > 0:  # Has an unwanted element
+    if len(elements.difference(good_atoms)) > 0:  # Has an unwanted element
         return False
     return True
 
-def count_heavy_atoms(formula_string):
-    heavy_atoms = ["N", "C", "O", "S"]
+def count_atoms(formula_string, which_atoms=["N", "C", "O", "S"]):
+    which_atoms = set(which_atoms)
     elements = re.findall("[A-Z][a-z]?\d?\d?\d?", formula_string)
     print(elements)
     n_heavy = 0
@@ -122,7 +123,7 @@ def count_heavy_atoms(formula_string):
             n_atoms = 1
         atom = re.split("\d?\d?\d?", s)[0]
         print(s, atom, n_atoms)
-        if atom in heavy_atoms:
+        if atom in which_atoms:
             n_heavy += n_atoms
     return n_heavy
         
