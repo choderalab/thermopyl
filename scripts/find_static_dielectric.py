@@ -66,6 +66,11 @@ X = X.ix[X.cas.dropna().index]
 
 X["Pressure, kPa"] = 101.325  # Assume everything within range is comparable.  
 
+# SEE GOOGLE DOC!!!!!!# SEE GOOGLE DOC!!!!!!# SEE GOOGLE DOC!!!!!!# SEE GOOGLE DOC!!!!!!
+bad_filenames = ["./10.1016/j.fluid.2013.12.014.xml"]
+X = X[~X.filename.isin(bad_filenames)]
+# SEE GOOGLE DOC!!!!!!# SEE GOOGLE DOC!!!!!!# SEE GOOGLE DOC!!!!!!# SEE GOOGLE DOC!!!!!!
+
 mu = X.groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa"])[experiments].mean()
 sigma = X.groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa"])[experiments].std().dropna()
 
@@ -77,3 +82,7 @@ len(q.components.unique())
 # 400 measurements, 48 components.
 
 q.to_csv("./data_dielectric.csv")
+
+
+#Y = X[X.components == u'2-propanol'].groupby(["components", "smiles", "cas", "Temperature, K", "Pressure, kPa", "filename"])[experiments].mean().dropna()
+#Y = X[X.components == u'2-propanol'][experiments[1:]].dropna()
