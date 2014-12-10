@@ -1,10 +1,10 @@
 import re
 from rdkit import Chem
 from rdkit.Chem import AllChem
-import cirpy
+from thermopyl import cirpy
 import pandas as pd
 import glob
-import thermoml_lib
+from thermopyl import thermoml_lib
 
 data = pd.read_hdf("./data.h5", 'data')
 

@@ -13,8 +13,8 @@ for filename in glob.glob("%s/*/*.xml" % XML_PATH):
         current_data = parser.parse()
         data.extend(current_data)
         compound_dict.update(parser.compound_name_to_formula)
-    except IOError, pyxb.UnrecognizedDOMRootNodeError:
-        continue
+    except Exception as e:
+        print(e)
 
 data = pd.DataFrame(data)
 compound_dict = pd.Series(compound_dict)
