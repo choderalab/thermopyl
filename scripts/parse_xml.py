@@ -1,10 +1,12 @@
 import pandas as pd
-import glob
+import glob, os
 from thermopyl import Parser
+
+XML_PATH = os.environ["HOME"]
 
 data = []
 compound_dict = {}
-for filename in glob.glob("./*/*.xml"):
+for filename in glob.glob("%s/*/*.xml" % XML_PATH):
     try:
         parser = thermoml_lib.Parser(filename)
         current_data = parser.parse()
@@ -14,7 +16,7 @@ for filename in glob.glob("./*/*.xml"):
         continue
 
 data = pd.DataFrame(data)
-data.to_hdf("./data.h5", 'data')
-
 compound_dict = pd.Series(compound_dict)
+
+data.to_hdf("./data.h5", 'data')
 compound_dict.to_hdf("./compound_name_to_formula.h5", 'data')
