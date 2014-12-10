@@ -1,6 +1,6 @@
 import pandas as pd
 import glob
-import thermoml_lib
+from thermopyl import Parser
 
 data = []
 compound_dict = {}
