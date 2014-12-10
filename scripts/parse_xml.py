@@ -2,13 +2,13 @@ import pandas as pd
 import glob, os
 from thermopyl import Parser
 
-XML_PATH = os.environ["HOME"]
+XML_PATH = os.path.join(os.environ["HOME"], "dat/thermo")
 
 data = []
 compound_dict = {}
 for filename in glob.glob("%s/*/*.xml" % XML_PATH):
     try:
-        parser = thermoml_lib.Parser(filename)
+        parser = Parser(filename)
         current_data = parser.parse()
         data.extend(current_data)
         compound_dict.update(parser.compound_name_to_formula)
