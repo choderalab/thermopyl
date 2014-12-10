@@ -1,5 +1,6 @@
 import pandas as pd
 import glob, os
+import pyxb
 from thermopyl import Parser
 
 XML_PATH = os.path.join(os.environ["HOME"], "dat/thermo")
@@ -12,7 +13,7 @@ for filename in glob.glob("%s/*/*.xml" % XML_PATH):
         current_data = parser.parse()
         data.extend(current_data)
         compound_dict.update(parser.compound_name_to_formula)
-    except IOError:
+    except IOError, pyxb.UnrecognizedDOMRootNodeError:
         continue
 
 data = pd.DataFrame(data)

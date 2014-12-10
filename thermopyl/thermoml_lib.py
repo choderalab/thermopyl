@@ -105,7 +105,7 @@ class Parser(object):
 def count_atoms(formula_string, which_atoms):
     """Parse a chemical formula and return the total number of atoms."""
     element_counts = formula_to_element_counts(formula_string)
-    return sum(val for key, val in element_counts.items() if key in which_atoms)
+    return sum(val for key, val in element_counts.items())
 
 
 def count_atoms_in_set(formula_string, which_atoms):
