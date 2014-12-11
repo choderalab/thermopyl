@@ -102,7 +102,7 @@ class Parser(object):
         return alldata
 
 
-def count_atoms(formula_string, which_atoms):
+def count_atoms(formula_string):
     """Parse a chemical formula and return the total number of atoms."""
     element_counts = formula_to_element_counts(formula_string)
     return sum(val for key, val in element_counts.items())
@@ -125,14 +125,14 @@ def formula_to_element_counts(formula_string):
     """Transform a chemical formula into a dictionary of (element, number) pairs."""
     pattern = r'([A-Z][a-z]{0,2}\d*)'
     pieces = re.split(pattern, formula_string)
-    print "\nformula_string=%r pieces=%r" % (formula_string, pieces)
+    #print "\nformula_string=%r pieces=%r" % (formula_string, pieces)
     data = pieces[1::2]
     rubbish = filter(None, pieces[0::2])
     pattern2 = r'([A-Z][a-z]{0,2})'
 
     results = {}
     for piece in data:
-        print(piece)
+        #print(piece)
         element, number = re.split(pattern2, piece)[1:]
         try:
             number = int(number)
