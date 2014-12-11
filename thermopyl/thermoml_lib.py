@@ -5,7 +5,7 @@ import thermoml_schema  # Obtained by `wget http://media.iupac.org/namespaces/Th
 
 class Parser(object):
     def __init__(self, filename):
-        print(filename)
+        """Create a parser objection from an XML filename."""
         self.filename = filename
         self.root = thermoml_schema.CreateFromDocument(open(self.filename).read())
         
@@ -18,11 +18,12 @@ class Parser(object):
             nOrgNum = Compound.RegNum.nOrgNum
             sCommonName = Compound.sCommonName[0]
             sFormulaMolec = Compound.sFormulaMolec
-            
+
             self.compound_num_to_name[nOrgNum] = sCommonName
             self.compound_name_to_formula[sCommonName] = sFormulaMolec
 
-    def parse(self):        
+    def parse(self):
+        """Parse the current XML filename and return a list of measurements."""
         alldata = []
         for PureOrMixtureData in self.root.PureOrMixtureData:
             components = []
@@ -101,35 +102,42 @@ class Parser(object):
         return alldata
 
 
-def is_good(formula_string, good_atoms=["H","N","C","O","S"]):
-    good_atoms = set(good_atoms)
-    good_atoms.add("")
-    elements = set(re.findall("[A-Z][a-z]?", formula_string))    
-    if good_atoms.intersection(elements) is None:  # Has no good elements
-        return False
-    if len(elements.difference(good_atoms)) > 0:  # Has an unwanted element
-        return False
-    return True
+def count_atoms(formula_string):
+    """Parse a chemical formula and return the total number of atoms."""
+    element_counts = formula_to_element_counts(formula_string)
+    return sum(val for key, val in element_counts.items())
 
-def count_atoms(formula_string, which_atoms=["N", "C", "O", "S"]):
-    which_atoms = set(which_atoms)
-    elements = re.findall("[A-Z][a-z]?\d?\d?\d?", formula_string)
-    print(elements)
-    n_heavy = 0
-    for s in elements:
-        try:
-            n_atoms = int(re.split("[A-Z][a-z]?", s)[1])
-        except:
-            n_atoms = 1
-        atom = re.split("\d?\d?\d?", s)[0]
-        print(s, atom, n_atoms)
-        if atom in which_atoms:
-            n_heavy += n_atoms
-    return n_heavy
-        
+
+def count_atoms_in_set(formula_string, which_atoms):
+    """Parse a chemical formula and return the number of atoms in a set of atoms."""
+    element_counts = formula_to_element_counts(formula_string)
+    return sum(val for key, val in element_counts.items() if key in which_atoms)
+
 
 def get_first_entry(cas):
     """If cirpy returns several CAS results, extracts the first one."""
     if type(cas) == type([]):
         cas = cas[0]
     return cas
+
+
+def formula_to_element_counts(formula_string):
+    """Transform a chemical formula into a dictionary of (element, number) pairs."""
+    pattern = r'([A-Z][a-z]{0,2}\d*)'
+    pieces = re.split(pattern, formula_string)
+    #print "\nformula_string=%r pieces=%r" % (formula_string, pieces)
+    data = pieces[1::2]
+    rubbish = filter(None, pieces[0::2])
+    pattern2 = r'([A-Z][a-z]{0,2})'
+
+    results = {}
+    for piece in data:
+        #print(piece)
+        element, number = re.split(pattern2, piece)[1:]
+        try:
+            number = int(number)
+        except ValueError:
+            number = 1
+        results[element] = number
+
+    return results
