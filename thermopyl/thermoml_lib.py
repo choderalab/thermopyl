@@ -5,13 +5,14 @@ import thermoml_schema  # Obtained by `wget http://media.iupac.org/namespaces/Th
 
 class Parser(object):
     def __init__(self, filename):
-        """Create a parser objection from an XML filename."""
+        """Create a parser object from an XML filename."""
         self.filename = filename
         self.root = thermoml_schema.CreateFromDocument(open(self.filename).read())
         
         self.store_compounds()
     
     def store_compounds(self):
+        """Extract and store compounds from a thermoml XML file."""
         self.compound_num_to_name = {}
         self.compound_name_to_formula = {}
         for Compound in self.root.Compound:
