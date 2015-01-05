@@ -64,5 +64,6 @@ setup(name='thermopyl',
       platforms=['Linux', 'Mac OS-X', 'Unix'],
       classifiers=CLASSIFIERS.splitlines(),
       packages=['thermopyl'],
+      package_data={'thermopyl': ['data/*']},  # Install all data directories of the form /data/
       zip_safe=False,
       ext_modules=extensions,)
