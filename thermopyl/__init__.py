@@ -1,2 +1,2 @@
 from thermoml_lib import *
-from . import cirpy
+from . import cirpy, utils

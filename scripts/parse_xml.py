@@ -1,6 +1,5 @@
 import pandas as pd
 import glob, os
-import pyxb
 from thermopyl import Parser
 
 XML_PATH = os.path.join(os.environ["HOME"], "dat/thermo")
@@ -8,6 +7,7 @@ XML_PATH = os.path.join(os.environ["HOME"], "dat/thermo")
 data = []
 compound_dict = {}
 for filename in glob.glob("%s/*/*.xml" % XML_PATH):
+    print(filename)
     try:
         parser = Parser(filename)
         current_data = parser.parse()
