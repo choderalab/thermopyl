@@ -1,3 +1,4 @@
+import numpy as np
 import re
 import copy
 import pandas as pd
@@ -98,8 +99,17 @@ class Parser(object):
                     nPropValue = PropertyValue.nPropValue
                     ptype = property_dict[nPropNumber]
                     current_data[ptype] = nPropValue
+                    
+                    # Now attempt to extract measurement uncertainty for the same measurement
+                    try:  
+                        uncertainty = PropertyValue.PropUncertainty[0].nStdUncertValue
+                    except IndexError:
+                        uncertainty = np.nan
+                    current_data[ptype + "_std"] = uncertainty
+                    
 
                 alldata.append(current_data)
+
         return alldata
 
 
