@@ -38,10 +38,13 @@ class Parser(object):
             components_string = "__".join(components)
 
             property_dict = {}
+            ePropPhase_dict = {}
             for Property in PureOrMixtureData.Property:
                 nPropNumber = Property.nPropNumber
                 ePropName = Property.Property_MethodID.PropertyGroup.content()[0].ePropName  # ASSUMING LENGTH 1
                 property_dict[nPropNumber] = ePropName
+                ePropPhase = Property.PropPhaseID[0].ePropPhase  # ASSUMING LENGTH 1
+                ePropPhase_dict[nPropNumber] = ePropPhase
 
             state = dict(filename=self.filename, components=components_string)
             
@@ -98,7 +101,9 @@ class Parser(object):
                     nPropNumber = PropertyValue.nPropNumber
                     nPropValue = PropertyValue.nPropValue
                     ptype = property_dict[nPropNumber]
+                    phase = ePropPhase_dict[nPropNumber]
                     current_data[ptype] = nPropValue
+                    current_data["phase"] = phase
                     
                     # Now attempt to extract measurement uncertainty for the same measurement
                     try:  
