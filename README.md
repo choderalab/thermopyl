@@ -20,7 +20,7 @@ python setup.py install
 
 Usage:
 
-To update an exting locally saved archive:
+To update an existing locally saved archive:
 
 import thermopyl
 thermopyl.update_archive()
