@@ -1,7 +1,6 @@
 import os
 from pkg_resources import resource_filename
 
-
 def get_fn(name):
     """Get the full path to one of the reference files shipped for testing
 
@@ -22,3 +21,10 @@ def get_fn(name):
             'added it, you\'ll have to re install' % fn)
 
     return fn
+
+def make_path(filename):
+    try:
+        path = os.path.split(filename)[0]
+        os.makedirs(path)
+    except OSError:
+        pass
