@@ -2,7 +2,7 @@ import pandas as pd
 import glob, os
 from thermopyl import Parser
 
-XML_PATH = os.path.join(os.environ["HOME"], "dat/thermoml_data/")
+XML_PATH = os.environ["THERMOML_PATH"]
 filenames = glob.glob("%s/ThermoML/*/*.xml" % XML_PATH)
 
 data = []
