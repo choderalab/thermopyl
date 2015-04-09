@@ -19,7 +19,7 @@ for filename in filenames:
         print(e)
 
 data = pd.concat(data, copy=False, ignore_index=True)  # Because the input data is a list of DataFrames, this saves a LOT of memory!  Ignore the index to return unique index.
-data.to_hdf("./data.h5", 'data')
+data.to_hdf("%s/data.h5" % XML_PATH, 'data')
 
 compound_dict = pd.Series(compound_dict)
-compound_dict.to_hdf("./compound_name_to_formula.h5", 'data')
+compound_dict.to_hdf("%s/compound_name_to_formula.h5" % XML_PATH, 'data')
