@@ -18,7 +18,7 @@ for filename in filenames:
     except Exception as e:
         print(e)
 
-data = pd.concat(data, copy=False)  # Because the input data is a list of DataFrames, this saves a LOT of memory!
+data = pd.concat(data, copy=False, ignore_index=True)  # Because the input data is a list of DataFrames, this saves a LOT of memory!  Ignore the index to return unique index.
 data.to_hdf("./data.h5", 'data')
 
 compound_dict = pd.Series(compound_dict)
