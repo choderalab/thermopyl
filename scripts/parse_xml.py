@@ -2,22 +2,24 @@ import pandas as pd
 import glob, os
 from thermopyl import Parser
 
-XML_PATH = os.path.join(os.environ["HOME"], "dat/thermo")
+XML_PATH = os.path.join(os.environ["HOME"], "dat/thermoml_data/")
+filenames = glob.glob("%s/ThermoML/*/*.xml" % XML_PATH)
 
 data = []
 compound_dict = {}
-for filename in glob.glob("%s/*/*.xml" % XML_PATH):
+for filename in filenames:
     print(filename)
     try:
         parser = Parser(filename)
         current_data = parser.parse()
-        data.extend(current_data)
+        current_data = pd.DataFrame(current_data)
+        data.append(current_data)
         compound_dict.update(parser.compound_name_to_formula)
     except Exception as e:
         print(e)
 
-data = pd.DataFrame(data)
-compound_dict = pd.Series(compound_dict)
-
+data = pd.concat(data, copy=False)  # Because the input data is a list of DataFrames, this saves a LOT of memory!
 data.to_hdf("./data.h5", 'data')
+
+compound_dict = pd.Series(compound_dict)
 compound_dict.to_hdf("./compound_name_to_formula.h5", 'data')
