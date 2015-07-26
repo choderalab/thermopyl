@@ -1,6 +1,6 @@
 import os
 import feedparser
-from utils import make_path
+from .utils import make_path
 from six.moves import urllib_parse, urllib
 
 THERMOML_FEEDS = {
@@ -14,8 +14,8 @@ THERMOML_FEEDS = {
 
 def update_archive(thermoml_path=None):
     """Use RSS feeds to find and download any missing ThermoML XML files
-    from the ThermoML archive.  
-    
+    from the ThermoML archive.
+
     Parameters
     ----------
     thermoml_path : str, optional, default=None
@@ -23,11 +23,15 @@ def update_archive(thermoml_path=None):
         use the THERMOML_PATH environment variable.
     """
     if thermoml_path is None:
-        if "THERMOML_PATH" in os.environ:
+        # Try to obtain the path to the local ThermoML Archive mirror from an environment variable.
+        try:
+            # Check THERMOML_PATH environment variable
             thermoml_path = os.environ["THERMOML_PATH"]
-        else:
-            raise(KeyError("You must either specify thermoml_path or the THERMOML_PATH environment variable."))
+        except:
+            # Use default path of ~/.thermoml
+            thermoml_path = os.path.join(os.environ["HOME"], '.thermoml')
 
+    # Update local repository according to feeds.
     for key, url in THERMOML_FEEDS.items():
         feed = feedparser.parse(url)
         for entry in feed["entries"]:
@@ -41,3 +45,4 @@ def update_archive(thermoml_path=None):
             else:
                 print("Fetching %s from %s" % (filename, link))
                 urllib.request.urlretrieve (link, filename)
+

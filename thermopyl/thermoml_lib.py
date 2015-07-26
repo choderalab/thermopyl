@@ -2,7 +2,7 @@ import numpy as np
 import re
 import copy
 import pandas as pd
-import thermoml_schema  # Obtained by `wget http://media.iupac.org/namespaces/ThermoML/ThermoML.xsd` and `pyxbgen ThermoML.xsd`
+from . import thermoml_schema  # Obtained by `wget http://media.iupac.org/namespaces/ThermoML/ThermoML.xsd` and `pyxbgen ThermoML.xsd`
 
 class Parser(object):
     def __init__(self, filename):

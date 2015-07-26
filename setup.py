@@ -27,7 +27,7 @@ else:
     DEBUG = False
 
 # #########################
-VERSION = '0.1'
+VERSION = '0.9'
 ISRELEASED = False
 __version__ = VERSION
 # #########################
@@ -63,7 +63,18 @@ setup(name='thermopyl',
       url='https://github.com/choderalab/thermopyl',
       platforms=['Linux', 'Mac OS-X', 'Unix'],
       classifiers=CLASSIFIERS.splitlines(),
-      packages=['thermopyl'],
+      packages=['thermopyl', 'thermopyl.tests', 'thermopyl.scripts'],
       package_data={'thermopyl': ['data/*']},  # Install all data directories of the form /data/
       zip_safe=False,
-      ext_modules=extensions,)
+      ext_modules=extensions,
+      install_requires=[
+        'six',
+        'pandas',
+        'pyxb>=1.2.4',
+        'feedparser',
+        'tables',
+        ],
+      entry_points={'console_scripts': [
+            'thermoml-update-mirror = thermopyl.scripts.update_archive:main',
+            'thermoml-build-pandas = thermopyl.scripts.parse_xml:main',
+            ]})

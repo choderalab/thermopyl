@@ -1,0 +1,38 @@
+language: c
+sudo: false
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+      - g++
+      - gfortran
+      - valgrind
+      - csh
+      - g++-multilib
+      - gcc-multilib
+
+install:
+  - source devtools/travis-ci/install.sh
+  - export PYTHONUNBUFFERED=true
+  - export CC=gcc
+  - export CXX=g++
+
+script:
+  - conda config --add channels https://conda.binstar.org/omnia
+  - conda build devtools/conda-recipe
+  - #cd devtools/c-tests/; make valgrind; cd -
+
+env:
+  matrix:
+    - python=2.7  CONDA_PY=27
+    - python=3.3  CONDA_PY=33
+    - python=3.4  CONDA_PY=34
+
+  global:
+    # encrypted BINSTAR_TOKEN for push of dev package to binstar
+    - secure: "imbxze6yxf3izWFZSlKSms4l+noglBD2UQLjGK+G1M1NuLKu082qDAJzfLk3I89WkM9aYcpG8wQ3PRY1YctZHXo4rrp7m3gdE/i563Ut5IYz4AZoe0wI6OGcIgBbX3yb1SmhmtJHY639M0rWVQmfJp9UCO96Vb2nHH0B/dTpIwU="
+
+after_success:
+  - echo "after_success"
+  - PACKAGENAME="thermopyl" ./devtools/ci/after_sucess.sh
