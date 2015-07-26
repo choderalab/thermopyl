@@ -73,4 +73,4 @@ setup(name='thermopyl',
         'pyxb>=1.2.4',
         'hdf5',
         ],
-      entry_points={'console_scripts': ['thermoml-archive-update = thermoml.scripts.update_archive:main']}))
+      entry_points={'console_scripts': ['thermoml-archive-update = thermoml.scripts.update_archive:main']})
