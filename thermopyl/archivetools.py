@@ -1,6 +1,6 @@
 import os
 import feedparser
-from utils import make_path
+from .utils import make_path
 from six.moves import urllib_parse, urllib
 
 THERMOML_FEEDS = {

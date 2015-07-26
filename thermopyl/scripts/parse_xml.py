@@ -3,12 +3,11 @@
 Parse ThermoML XML files in the local ThermoML Archive mirror.
 
 """
+import pandas as pd
+import glob, os, os.path
+from thermopyl import Parser
 
 def main():
-    import pandas as pd
-    import glob, os, os.path
-    from thermopyl import Parser
-
     try:
         XML_PATH = os.environ["THERMOML_PATH"]
     except:
