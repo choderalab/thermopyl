@@ -26,10 +26,10 @@ def update_archive(thermoml_path=None):
         # Try to obtain the path to the local ThermoML Archive mirror from an environment variable.
         try:
             # Check THERMOML_PATH environment variable
-            XML_PATH = os.environ["THERMOML_PATH"]
+            thermoml_path = os.environ["THERMOML_PATH"]
         except:
             # Use default path of ~/.thermoml
-            XML_PATH = os.path.join(os.environ["HOME"], '.thermoml')
+            thermoml_path = os.path.join(os.environ["HOME"], '.thermoml')
 
     # Update local repository according to feeds.
     for key, url in THERMOML_FEEDS.items():

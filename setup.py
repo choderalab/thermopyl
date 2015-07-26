@@ -74,6 +74,6 @@ setup(name='thermopyl',
         'feedparser',
         ],
       entry_points={'console_scripts': [
-            'thermoml-archive-update = thermopyl.scripts.update_archive:main',
-            'thermoml-to-pandas = thermopyl.scripts.parse_xml:main',
+            'thermoml-update-mirror = thermopyl.scripts.update_archive:main',
+            'thermoml-build-pandas = thermopyl.scripts.parse_xml:main',
             ]})

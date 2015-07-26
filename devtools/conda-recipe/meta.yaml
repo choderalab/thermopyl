@@ -30,8 +30,8 @@ test:
     - thermopyl
   commands:
     - nosetests thermopyl --nocapture --verbosity=2 --with-doctest
-    - thermoml-archive-update
-    - thermoml-to-pandas
+    - thermoml-update-mirror
+    - thermoml-build-pandas
 
 about:
   home: https://github.com/choderalab/ThermoPyL

@@ -23,13 +23,14 @@ conda install thermopyl
 
 ## Creating a local mirror of the ThermoML Archive
 
-1.  Obtain an archive of the ThermoML archive:
+1.  Create a local mirror of the ThermoML Archive:
 ```
-thermoml-archive-update
+thermoml-update-mirror
 ```
 By default, the archive is placed in `~/.thermoml/`.
 You can use the environment variable `THERMOML_PATH` to store its location on your disk.
-2.  Run `thermoml-to-pandas` to create a pandas version of the database, saved as an HDF5 file
+Re-running this command will update the local mirror with new data published in the ThermoML Archive RSS feeds.
+2.  Run `thermoml-build-pandas` to create a pandas version of the database, saved as an HDF5 file
 3.  Use Pandas to query the experimental literature
 
 ## Updating a locally existing copy of the ThermoML Archive via the Python API
