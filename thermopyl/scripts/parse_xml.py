@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+"""
+Parse ThermoML XML files
+
+"""
+
 import pandas as pd
 import glob, os
 from thermopyl import Parser
