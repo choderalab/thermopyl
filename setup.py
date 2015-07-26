@@ -27,7 +27,7 @@ else:
     DEBUG = False
 
 # #########################
-VERSION = '1.0'
+VERSION = '0.9'
 ISRELEASED = False
 __version__ = VERSION
 # #########################
@@ -71,5 +71,9 @@ setup(name='thermopyl',
         'six',
         'pandas',
         'pyxb>=1.2.4',
+        'feedparser',
         ],
-      entry_points={'console_scripts': ['thermoml-archive-update = thermoml.scripts.update_archive:main']})
+      entry_points={'console_scripts': [
+            'thermoml-archive-update = thermoml.scripts.update_archive:main',
+            'thermoml-to-pandas = thermoml.scripts.parse_xml:main',
+            ]})

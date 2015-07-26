@@ -14,8 +14,8 @@ THERMOML_FEEDS = {
 
 def update_archive(thermoml_path=None):
     """Use RSS feeds to find and download any missing ThermoML XML files
-    from the ThermoML archive.  
-    
+    from the ThermoML archive.
+
     Parameters
     ----------
     thermoml_path : str, optional, default=None
@@ -23,11 +23,15 @@ def update_archive(thermoml_path=None):
         use the THERMOML_PATH environment variable.
     """
     if thermoml_path is None:
-        if "THERMOML_PATH" in os.environ:
-            thermoml_path = os.environ["THERMOML_PATH"]
-        else:
-            raise(KeyError("You must either specify thermoml_path or the THERMOML_PATH environment variable."))
+        # Try to obtain the path to the local ThermoML Archive mirror from an environment variable.
+        try:
+            # Check THERMOML_PATH environment variable
+            XML_PATH = os.environ["THERMOML_PATH"]
+        except:
+            # Use default path of ~/.thermoml
+            XML_PATH = os.path.join(os.environ["HOME"], '.thermoml')
 
+    # Update local repository according to feeds.
     for key, url in THERMOML_FEEDS.items():
         feed = feedparser.parse(url)
         for entry in feed["entries"]:
@@ -41,3 +45,4 @@ def update_archive(thermoml_path=None):
             else:
                 print("Fetching %s from %s" % (filename, link))
                 urllib.request.urlretrieve (link, filename)
+

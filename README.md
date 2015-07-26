@@ -13,18 +13,24 @@ See the arXiv preprint:
 > Kyle A. Beauchamp, Julie M. Behr, Ariën S. Rustenburg, Christopher I. Bayly, Kenneth Kroenlein, John D. Chodera
 > [arXiv:1506.00262](arXiv:1506.00262)
 
-## Requirements:
-* Python 2.7
-* Pandas
-* pyxb version 1.2.4
-
 ## Installation:
-1.  Install the thermopyl library:
+
+The easiest way to install ThermoPyL is via the [conda](http://conda.pydata.org/docs/) package manager, which comes with the [Anaconda Scientific Python Distribution](https://store.continuum.io/cshop/anaconda/):
 ```
-python setup.py install
+conda config --add channels http://conda.binstar.org/omnia
+conda install thermopyl
 ```
-2.  Obtain an archive of the ThermoML archive.  Use environment variable THERMOML_PATH to store its location on your disk.
-2.  Execute `parse_xml.py` to create a pandas version of the database, saved as an HDF5 file
+
+## Creating a local mirror of the ThermoML Archive
+1.  Obtain an archive of the ThermoML archive:
+```
+thermoml-archive-update
+```
+By default, the archive is placed in `~/.thermoml/`.
+You can use the environment variable `THERMOML_PATH` to store its location on your disk.
+
+2.  Run `thermoml-to-pandas` to create a pandas version of the database, saved as an HDF5 file
+
 3.  Use Pandas to query the experimental literature
 
 ## Updating a locally existing copy of the ThermoML Archive

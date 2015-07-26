@@ -14,12 +14,14 @@ requirements:
     - six
     - pandas
     - pyxb >=1.2.4
+    - feedparser
 
   run:
     - python
     - six
     - pandas
     - pyxb >=1.2.4
+    - feedparser
 
 test:
   requires:
@@ -29,6 +31,7 @@ test:
   commands:
     - nosetests thermopyl --nocapture --verbosity=2 --with-doctest
     - thermoml-archive-update
+    - thermoml-to-pandas
 
 about:
   home: https://github.com/choderalab/ThermoPyL
