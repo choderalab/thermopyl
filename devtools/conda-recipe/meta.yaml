@@ -14,14 +14,12 @@ requirements:
     - six
     - pandas
     - pyxb >=1.2.4
-    - hdf5
 
   run:
     - python
     - six
     - pandas
     - pyxb >=1.2.4
-    - hdf5
 
 test:
   requires:
@@ -29,6 +27,7 @@ test:
   imports:
     - thermopyl
   commands:
+    - nosetests thermopyl --nocapture --verbosity=2 --with-doctest
     - thermoml-archive-update
 
 about:
