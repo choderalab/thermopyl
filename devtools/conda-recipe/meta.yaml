@@ -6,6 +6,7 @@ source:
   path: ../../
 
 build:
+  preserve_egg_dir: True
   number: 0
 
 requirements:
@@ -15,6 +16,7 @@ requirements:
     - pandas
     - pyxb >=1.2.4
     - feedparser
+    - pytables
 
   run:
     - python
@@ -22,6 +24,7 @@ requirements:
     - pandas
     - pyxb >=1.2.4
     - feedparser
+    - pytables
 
 test:
   requires:
@@ -30,11 +33,12 @@ test:
     - thermopyl
   commands:
     - nosetests thermopyl --nocapture --verbosity=2 --with-doctest
+    - which thermoml-update-mirror
     - thermoml-update-mirror
     - thermoml-build-pandas
 
 about:
-  home: https://github.com/choderalab/ThermoPyL
+  home: https://github.com/choderalab/thermopyl
   license: GNU Lesser General Public License v2 or later (LGPLv2+)
 
 
