@@ -35,4 +35,4 @@ env:
 
 after_success:
   - echo "after_success"
-  - PACKAGENAME="thermopyl" ./devtools/ci/after_sucess.sh
+  - PACKAGENAME="thermopyl" ./devtools/travis-ci/after_success.sh
