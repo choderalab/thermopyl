@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/choderalab/thermopyl.png?branch=master)](https://travis-ci.org/choderalab/thermopyl)
-[![Binstar Badge](https://binstar.org/omnia/thermopyl/badges/version.svg)](https://binstar.org/omnia/thermopyl)
+[![Binstar Badge](https://binstar.org/choderalab/thermopyl-dev/badges/version.svg)](https://binstar.org/choderalab/thermopyl-dev)
 
 ThermoPyL
 =========
