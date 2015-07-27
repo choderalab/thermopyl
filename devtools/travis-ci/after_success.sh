@@ -15,7 +15,7 @@ fi
 
 
 # Deploy to binstar
-conda install --yes binstar jinja2
+conda install --yes conda-server jinja2
 binstar -t $BINSTAR_TOKEN upload --force -u omnia -p ${PACKAGENAME}-dev $HOME/miniconda/conda-bld/*/${PACKAGENAME}-dev-*.tar.bz2
 
 if [ $PUSH_DOCS_TO_S3 = true ]; then
