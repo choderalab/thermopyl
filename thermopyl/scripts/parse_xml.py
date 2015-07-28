@@ -13,7 +13,7 @@ def main():
     except:
         XML_PATH = os.path.join(os.environ["HOME"], '.thermoml')
 
-    filenames = glob.glob("%s/ThermoML/*/*.xml" % XML_PATH)
+    filenames = glob.glob("%s/*.xml" % XML_PATH)
 
     data = []
     compound_dict = {}

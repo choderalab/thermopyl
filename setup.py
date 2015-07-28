@@ -70,7 +70,7 @@ setup(name='thermopyl',
       install_requires=[
         'six',
         'pandas',
-        'pyxb>=1.2.4',
+        'pyxb==1.2.4',
         'feedparser',
         'tables',
         ],
