@@ -31,8 +31,8 @@ env:
 
   global:
     # encrypted BINSTAR_TOKEN for push of dev package to binstar
-    - secure: "imbxze6yxf3izWFZSlKSms4l+noglBD2UQLjGK+G1M1NuLKu082qDAJzfLk3I89WkM9aYcpG8wQ3PRY1YctZHXo4rrp7m3gdE/i563Ut5IYz4AZoe0wI6OGcIgBbX3yb1SmhmtJHY639M0rWVQmfJp9UCO96Vb2nHH0B/dTpIwU="
+    - secure: "U7PFV21uR/I1jqxzMFC5I+0e8SNxnE4YbXiIi1ZzWhYBUjIpYvwSDAWgtrYLmVQI+uG8iY0ad3hUWd2RzwB2BWMFe8yhlFqPS5EPJXj+y/YlmeIIcaH8yc+//1fl0S5Fi09cmXWY+Y1+ygmKcXUrSsjqxsNp0G3SoQHhYcWTS64="
 
 after_success:
   - echo "after_success"
-  - PACKAGENAME="thermopyl" ./devtools/ci/after_sucess.sh
+  - PACKAGENAME="thermopyl" ./devtools/travis-ci/after_success.sh

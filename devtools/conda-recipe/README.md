@@ -9,6 +9,6 @@ The binstar auth token is an encrypted environment variable generated using:
 You set up travis to store an encrypted token via
 ```
 gem install travis
-travis encrypt BINSTAR_TOKEN=`binstar auth -n thermopyl-travis -o omnia --max-age 22896000 -c --scopes api:write`
+travis encrypt BINSTAR_TOKEN=`binstar auth -n thermopyl-travis -o choderalab --max-age 22896000 -c --scopes api:write`
 ```
 The final command should print a line (containing 'secure') for inclusion in your `.travis.yml` file.
