@@ -14,7 +14,7 @@ requirements:
     - python
     - six
     - pandas
-    - pyxb >=1.2.4
+    - pyxb == 1.2.4
     - feedparser
     - pytables
 
@@ -22,7 +22,7 @@ requirements:
     - python
     - six
     - pandas
-    - pyxb >=1.2.4
+    - pyxb == 1.2.4
     - feedparser
     - pytables
 
@@ -40,7 +40,3 @@ test:
 about:
   home: https://github.com/choderalab/thermopyl
   license: GNU Lesser General Public License v2 or later (LGPLv2+)
-
-
-
-
