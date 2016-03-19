@@ -33,8 +33,21 @@ Re-running this command will update the local mirror with new data published in 
 2.  Run `thermoml-build-pandas` to create a pandas version of the database, saved as an HDF5 file in the archive directory.
 3.  Use Pandas to query the experimental literature:
 ```python
-import pandas as pd
-df = pd.read_hdf(os.path.join(os.environ['THERMOML_PATH'], 'data.h5')
+import thermopyl
+# Read ThermoML archive data into pandas dataframe
+df = thermopyl.pandas_dataframe()
+```
+Datatypes are listed in columns (in addition to useful fields like `components`, `filename`, and `phase`):
+```python
+datatypes = list(df.columns)
+```
+Unavailable data is labeled as `NaN`. You can use this to extract useful data by querying on data that is not `NaN`.
+For example, to extract dataframe rows with mass densities:
+```python
+# Extract rows with mass densities
+densities = thermoml[np.isnan(thermoml['Mass density, kg/m3'])==False]
+# Get a list of unique components
+unique_components = set(x['components'])
 ```
 
 ## Updating a locally existing copy of the ThermoML Archive via the Python API

@@ -27,7 +27,7 @@ else:
     DEBUG = False
 
 # #########################
-VERSION = '0.9'
+VERSION = '0.9.1'
 ISRELEASED = False
 __version__ = VERSION
 # #########################
