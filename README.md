@@ -31,6 +31,20 @@ By default, the archive is placed in `~/.thermoml/`.
 You can use the environment variable `THERMOML_PATH` to store its location on your disk.
 Re-running this command will update the local mirror with new data published in the ThermoML Archive RSS feeds.
 2.  Run `thermoml-build-pandas` to create a pandas version of the database, saved as an HDF5 file in the archive directory.
+You can restrict the data subset that will be compiled with command-line arguments. See the command-line help:
+```
+% thermoml-build-pandas --help
+usage: thermoml-build-pandas [-h] [--journalprefix JOURNALPREFIX]
+                             [--path path]
+
+Build a Pandas dataset from local ThermoML Archive mirror.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --journalprefix JOURNALPREFIX
+                        journal prefix to use in globbing *.xml files
+  --path path           path to local ThermoML Archive mirror
+```
 3.  Use Pandas to query the experimental literature:
 ```python
 import thermopyl

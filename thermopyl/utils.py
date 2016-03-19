@@ -29,6 +29,42 @@ def make_path(filename):
     except OSError:
         pass
 
+def build_pandas_dataframe(filenames):
+    """
+    Build pandas dataframe for property data and compounds.
+
+    Parameters
+    ----------
+    filenames : list
+        List of ThermoML filenames to process.
+
+    Returns
+    -------
+    data : pandas DataFrame
+        Compiled ThermoML dataframe
+    compounds : pandas Dataframe
+        Compounds dataframe
+
+    """
+    import pandas as pd
+    from thermopyl import Parser
+
+    data = []
+    compound_dict = {}
+    for filename in filenames:
+        print(filename)
+        try:
+            parser = Parser(filename)
+            current_data = parser.parse()
+            current_data = pd.DataFrame(current_data)
+            data.append(current_data)
+            compound_dict.update(parser.compound_name_to_formula)
+        except Exception as e:
+            print(e)
+
+    data = pd.concat(data, copy=False, ignore_index=True)  # Because the input data is a list of DataFrames, this saves a LOT of memory!  Ignore the index to return unique index.
+    compounds = pd.Series(compound_dict)
+    return [data, compounds]
 
 def pandas_dataframe(thermoml_path=None):
     """Read the ThermoPyL dataset into a Pandas dataframe.

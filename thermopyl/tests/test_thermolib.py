@@ -1,5 +1,7 @@
 from thermopyl import thermoml_lib
 from thermopyl.utils import get_fn
+import tempfile
+import os, os.path
 
 formula = "C3H5N2OClBr"
 reference_atom_count = 13
@@ -27,3 +29,23 @@ def test_thermopyl():
     parser = thermoml_lib.Parser(filename)
     current_data = parser.parse()
     name_to_formula = parser.compound_name_to_formula
+
+def test_build_pandas_dataframe():
+    tmpdir = tempfile.mkdtemp()
+
+    from thermopyl.utils import build_pandas_dataframe, pandas_dataframe
+
+    # Generate dataframe
+    filenames = [get_fn("je8006138.xml")]
+    [data, compounds] = build_pandas_dataframe(filenames)
+
+    # Write as HDF5
+    data.to_hdf(os.path.join(tmpdir, 'data.h5'), 'data')
+    compounds.to_hdf(os.path.join(tmpdir, 'compound_name_to_formula.h5'), 'data')
+
+    # Read dataframe
+    df = pandas_dataframe(thermoml_path=tmpdir)
+
+    # Clean up tmpdir
+    import shutil
+    shutil.rmtree(tmpdir)
