@@ -31,23 +31,9 @@ def main():
         filenames = glob.glob("%s/*.xml" % XML_PATH)
 
     # Process data.
-    data = []
-    compound_dict = {}
-    for filename in filenames:
-        print(filename)
-        try:
-            parser = Parser(filename)
-            current_data = parser.parse()
-            current_data = pd.DataFrame(current_data)
-            data.append(current_data)
-            compound_dict.update(parser.compound_name_to_formula)
-        except Exception as e:
-            print(e)
-
-    data = pd.concat(data, copy=False, ignore_index=True)  # Because the input data is a list of DataFrames, this saves a LOT of memory!  Ignore the index to return unique index.
+    from thermopyl.utils import build_pandas_dataframe
+    [data, compound_dict] = build_pandas_dataframe(filenames)
     data.to_hdf("%s/data.h5" % XML_PATH, 'data')
-
-    compound_dict = pd.Series(compound_dict)
     compound_dict.to_hdf("%s/compound_name_to_formula.h5" % XML_PATH, 'data')
 
     return

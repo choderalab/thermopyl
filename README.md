@@ -17,7 +17,7 @@ See the arXiv preprint:
 
 The easiest way to install ThermoPyL is via the [conda](http://conda.pydata.org/docs/) package manager, which comes with the [Anaconda Scientific Python Distribution](https://store.continuum.io/cshop/anaconda/):
 ```
-conda config --add channels http://conda.binstar.org/omnia
+conda config --add channels choderalab
 conda install thermopyl
 ```
 
@@ -30,8 +30,39 @@ thermoml-update-mirror
 By default, the archive is placed in `~/.thermoml/`.
 You can use the environment variable `THERMOML_PATH` to store its location on your disk.
 Re-running this command will update the local mirror with new data published in the ThermoML Archive RSS feeds.
-2.  Run `thermoml-build-pandas` to create a pandas version of the database, saved as an HDF5 file
-3.  Use Pandas to query the experimental literature
+2.  Run `thermoml-build-pandas` to create a pandas version of the database, saved as an HDF5 file in the archive directory.
+You can restrict the data subset that will be compiled with command-line arguments. See the command-line help:
+```
+% thermoml-build-pandas --help
+usage: thermoml-build-pandas [-h] [--journalprefix JOURNALPREFIX]
+                             [--path path]
+
+Build a Pandas dataset from local ThermoML Archive mirror.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --journalprefix JOURNALPREFIX
+                        journal prefix to use in globbing *.xml files
+  --path path           path to local ThermoML Archive mirror
+```
+3.  Use Pandas to query the experimental literature:
+```python
+import thermopyl
+# Read ThermoML archive data into pandas dataframe
+df = thermopyl.pandas_dataframe()
+```
+Datatypes are listed in columns (in addition to useful fields like `components`, `filename`, and `phase`):
+```python
+datatypes = list(df.columns)
+```
+Unavailable data is labeled as `NaN`. You can use this to extract useful data by querying on data that is not `NaN`.
+For example, to extract dataframe rows with mass densities:
+```python
+# Extract rows with mass densities
+densities = thermoml[np.isnan(thermoml['Mass density, kg/m3'])==False]
+# Get a list of unique components
+unique_components = set(x['components'])
+```
 
 ## Updating a locally existing copy of the ThermoML Archive via the Python API
 
