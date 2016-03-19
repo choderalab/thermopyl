@@ -17,7 +17,7 @@ See the arXiv preprint:
 
 The easiest way to install ThermoPyL is via the [conda](http://conda.pydata.org/docs/) package manager, which comes with the [Anaconda Scientific Python Distribution](https://store.continuum.io/cshop/anaconda/):
 ```
-conda config --add channels http://conda.binstar.org/omnia
+conda config --add channels choderalab
 conda install thermopyl
 ```
 
@@ -30,8 +30,12 @@ thermoml-update-mirror
 By default, the archive is placed in `~/.thermoml/`.
 You can use the environment variable `THERMOML_PATH` to store its location on your disk.
 Re-running this command will update the local mirror with new data published in the ThermoML Archive RSS feeds.
-2.  Run `thermoml-build-pandas` to create a pandas version of the database, saved as an HDF5 file
-3.  Use Pandas to query the experimental literature
+2.  Run `thermoml-build-pandas` to create a pandas version of the database, saved as an HDF5 file in the archive directory.
+3.  Use Pandas to query the experimental literature:
+```python
+import pandas as pd
+df = pd.read_hdf(os.path.join(os.environ['THERMOML_PATH'], 'data.h5')
+```
 
 ## Updating a locally existing copy of the ThermoML Archive via the Python API
 
