@@ -59,9 +59,9 @@ Unavailable data is labeled as `NaN`. You can use this to extract useful data by
 For example, to extract dataframe rows with mass densities:
 ```python
 # Extract rows with mass densities
-densities = thermoml[np.isnan(thermoml['Mass density, kg/m3'])==False]
+densities = df[np.isnan(df['Mass density, kg/m3'])==False]
 # Get a list of unique components
-unique_components = set(x['components'])
+unique_components = set(df['components'])
 ```
 
 ## Updating a locally existing copy of the ThermoML Archive via the Python API
